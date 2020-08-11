@@ -71,14 +71,16 @@ export function scanDevices(host, network){
     }))        
 }
 
-export function dumpDevice(host, device){
+export function dumpDevice(host, datas){
     host = format(host, "handshake/")
+    console.log(host)
+    console.log(datas)
     return timeout(5000,fetch(host,{
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify(device)
+        body: JSON.stringify(datas)
     })
     .then((response) => {
         return response.json()
@@ -87,9 +89,7 @@ export function dumpDevice(host, device){
         return json
     })
     .catch((error) => {
-        console.log(error)
-        console.log(host)
-        console.log(JSON.stringify(device))
+        console.log(error.message)
         throw error
     }))        
 }

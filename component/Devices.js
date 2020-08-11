@@ -4,7 +4,9 @@ import { StyleSheet,
          View,
          TouchableWithoutFeedback,
          FlatList,
-         Alert } from 'react-native';
+         Alert,
+         PermissionsAndroid } from 'react-native';
+import geolocation from 'react-native-geolocation-service';
 
 import { dumpDevice } from '../utils/RaspberryAPI'
 import { alertError } from '../utils/ErrorHelper';
@@ -24,18 +26,32 @@ export default function Devices({ route, navigation }) {
                 style: "Cancel"
             },{
                 text: "Oui",
-                onPress: () => dump(item['item'])
+                onPress: () => getCoordonnees(item['item'].mac)
             }]
         )
     }
 
-    function dump(device){
+    const getCoordonnees = async (device) => {
         setIsLoading(true)
-        console.log(device)
-        dumpDevice(ip,device.mac)
+        await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION);
+        geolocation.getCurrentPosition(position => {
+                dump({
+                    mac: device,
+                    coord: {
+                        longitude: position.coords.latitude,
+                        latitude: position.coords.longitude
+                    }
+                })
+            },
+            (error) => console.log(JSON.stringify(error)),
+            {enableHighAccuracy: true, timeout: 5000, maximumAge: 2000 }
+        )
+    }
+
+    function dump(datas){
+        dumpDevice(ip, datas)
             .then((data) => {
                 setIsLoading(false)
-                console.log(data)
                 if (data == "1"){
                     Alert.alert("gg", "bg",
                     [{ 
