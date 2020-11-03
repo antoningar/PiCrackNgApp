@@ -15,6 +15,7 @@ import { alertError } from '../utils/ErrorHelper';
 export default function Devices({ route, navigation }) {
     const {devices} = route.params;
     const {ip} = route.params; 
+    const {network} = route.params;
     const [isLoading, setIsLoading] = useState(false);
 
     const onItemPressed = (item) => {
@@ -26,7 +27,10 @@ export default function Devices({ route, navigation }) {
                 style: "Cancel"
             },{
                 text: "Oui",
-                onPress: () => getCoordonnees(item['item'].mac)
+                onPress: () => dump({
+                    network: network,
+                    mac: item['item'].mac
+                })
             }]
         )
     }
@@ -53,7 +57,7 @@ export default function Devices({ route, navigation }) {
             .then((data) => {
                 setIsLoading(false)
                 if (data == "1"){
-                    Alert.alert("gg", "bg",
+                    Alert.alert("Handshake envoyé", "Bien joué",
                     [{ 
                         text: "Retour",
                         style: "Cancel"

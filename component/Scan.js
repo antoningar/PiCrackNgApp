@@ -4,6 +4,7 @@ import { StyleSheet,
          View,
          ActivityIndicator } from 'react-native';
 import { getNetworks } from '../utils/RaspberryAPI'
+import { getNetworksRegistered } from '../utils/ServerAPI'
 import { alertError } from '../utils/ErrorHelper' 
 
 
@@ -21,6 +22,23 @@ export default function Scan({ route, navigation }) {
             })
     }
 
+    const onRegistered = () => {
+        setIsLoading(true);
+        getNetworksRegistered()
+            .then((data) => callbackRegistered(data))
+            .catch((error) => {
+                alertError("Erreur", error.message)
+                setIsLoading(false)
+            })
+    }
+
+    function callbackRegistered(data){
+        setIsLoading(false)
+        navigation.navigate('NetworksRegistered',{
+            networks: data,
+        })
+    }
+
     function callback(data){
         setIsLoading(false)
         navigation.navigate('Networks',{
@@ -31,7 +49,10 @@ export default function Scan({ route, navigation }) {
 
     return(
         <View>
-            <Button title="Scan" onPress={onPressButton}/>
+            <View style={styles.button}>
+                <Button title="Scan" onPress={onPressButton}/>
+            </View>
+            <Button title="See networks registered" onPress={onRegistered}/>
             {isLoading &&(
                 <ActivityIndicator size="large" color="#00ff00"/>
             )}
@@ -40,4 +61,7 @@ export default function Scan({ route, navigation }) {
 }
 
 const styles = StyleSheet.create({
+    button: {
+        marginBottom: 20,
+    },
 })

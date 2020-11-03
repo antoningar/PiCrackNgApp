@@ -11,7 +11,7 @@ import { ping } from '../utils/RaspberryAPI'
 import { alertError } from '../utils/ErrorHelper'
 
 export default function Connect({navigation}) {
-    const [rasberryIp, setRaspberryIp] = useState("192.168.1.63");
+    const [rasberryIp, setRaspberryIp] = useState("192.168.43.177");
     const [isLoading, setIsLoading] = useState(false);
 
     const onPressButton = () => {

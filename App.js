@@ -7,6 +7,8 @@ import Scan from './component/Scan'
 import Networks from './component/Networks'
 import Devices from './component/Devices'
 
+import NetworksRegistered from './component/NetworkRegistered'
+
 const Stack = createStackNavigator()
 
 function App() {
@@ -21,6 +23,7 @@ function App() {
         <Stack.Screen name="Scan" component={Scan}/>
         <Stack.Screen name="Networks" component={Networks}/>
         <Stack.Screen name="Devices" component={Devices}/>
+        <Stack.Screen name="NetworksRegistered" component={NetworksRegistered}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

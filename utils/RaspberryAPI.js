@@ -28,7 +28,7 @@ export function ping(host, callback){
 }
 
 export function getNetworks(host){
-    return timeout(6000,fetch(format(host, "networks/"),{
+    return timeout(20000,fetch(format(host, "networks/"),{
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -50,7 +50,7 @@ export function getNetworks(host){
 
 export function scanDevices(host, network){
     host = format(host, "devices/")
-    return timeout(5000,fetch(host,{
+    return timeout(50000,fetch(host,{
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -73,9 +73,9 @@ export function scanDevices(host, network){
 
 export function dumpDevice(host, datas){
     host = format(host, "handshake/")
-    console.log(host)
+    console.log("DATAS")
     console.log(datas)
-    return timeout(5000,fetch(host,{
+    return timeout(80000,fetch(host,{
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

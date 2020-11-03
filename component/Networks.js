@@ -31,13 +31,14 @@ export default function Network({ route, navigation }) {
 
     function scan(network){
         setIsLoading(true)
-        console.log(network)
-        scanDevices(ip,network.bssid)
+        network.channel = parseInt(network.channel)
+        scanDevices(ip,network)
             .then((data) => {
                 setIsLoading(false)
                 navigation.navigate("Devices",{
                     devices: data,
-                    ip: ip
+                    ip: ip,
+                    network: network
                 })
             })
             .catch((error) => {
